@@ -34,7 +34,7 @@ object HdfsConn {
     val hdfsOut = "hdfs://192.168.10.38:8020/user/hdfs/output"
 
     val textFile = sc.textFile(hdfsIn + "/data_crawler_01/weatherOutput_201001_201607.csv")
-    println(textFile.first)
+//    println(textFile.first)
 
     import sqlContext.implicits._
     //data read
@@ -53,10 +53,14 @@ object HdfsConn {
                     p(7).trim.toFloat,
                     p(8))).toDF()
                     
-      dfWeatherJejuListInfo.registerTempTable("weather")
-      dfWeatherJejuListInfo.show()
+      dfWeatherJejuListInfo.registerTempTable("weatherTT")
+//      dfWeatherJejuListInfo.show()
+//      dfWeatherJejuListInfo.printSchema()
       
-      dfWeatherJejuListInfo.printSchema()
+      dfWeatherJejuListInfo.select("weather").show()
+      
+      val sqlWeatherDF = sqlContext.sql("SELECT * FROM weatherTT limit 3")
+      sqlWeather.show()
                                    
   }
 
